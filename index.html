@@ -10,11 +10,12 @@
     <div class="container">
         <img class="image2" src="לוגו סלייס 2.jpg" alt="לוגו הפודקאסט">
         <h1>Sliced Podcast</h1>
-        <h3>הכול זה בצוות - הרמוניה כבסיס להצלחה</h3>
+        <h2>על ניהול ברגישות ותוצאות</h2>
         <hr>
+        <h3>פרק 1 - איך מובילים אנשים ברגישות</h3>
         <div class="bottom" style="text-align: center;">
            <center>
-               <iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/C7wigRfTcwc" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+               <iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/C7wigRfTcwc?enablejsapi=1&autoplay=1" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
            </center>
         </div>
         <div class="grid">
@@ -75,9 +76,6 @@
         }
 
         function onPlayerReady(event) {
-            // התחלת הסרטון באופן אוטומטי ללא השתקה
-            player.playVideo();
-
             const sectionLinks = document.querySelectorAll('.box');
             sectionLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
