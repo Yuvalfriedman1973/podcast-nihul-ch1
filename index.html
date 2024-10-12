@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף נחיתה לפודקאסט - פרק 1</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body dir="rtl">
+    <div class="container">
+        <img class="image2" src="לוגו סלייס 2.jpg" alt="לוגו הפודקאסט">
+        <h1>Sliced Podcast</h1>
+        <hr>
+        <h3>פרק 1 - איך מובילים אנשים ברגישות</h3>
+        <div class="bottom" style="text-align: center;">
+           <center>
+               <iframe id="player" width="370" height="208" src="https://www.youtube.com/embed/C7wigRfTcwc" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+           </center>
+        </div>
+        <div class="grid">
+            <a class="box" data-start="0" data-end="64">
+                <h2>הובלת אנשים</h2>
+                <p>00:00 - 01:04</p>
+            </a>
+            <a class="box" data-start="64" data-end="218">
+                <h2>הרקע של ליאור</h2>
+                <p>01:04 - 03:38</p>
+            </a>
+            <a class="box" data-start="218" data-end="360">
+                <h2>הגדרת מטרות</h2>
+                <p>03:38 - 06:00</p>
+            </a>
+            <a class="box" data-start="360" data-end="639">
+                <h2>ניהול הרמוניה</h2>
+                <p>06:00 - 10:39</p>
+            </a>
+            <a class="box" data-start="639" data-end="960">
+                <h2>אתגרי ניהול</h2>
+                <p>10:39 - 16:00</p>
+            </a>
+            <a class="box" data-start="960" data-end="1320">
+                <h2>שימור הרמוניה</h2>
+                <p>16:00 - 22:00</p>
+            </a>
+            <a class="box" data-start="1320" data-end="1680">
+                <h2>פיתוח צוות</h2>
+                <p>22:00 - 28:00</p>
+            </a>
+            <a class="box" data-start="1680" data-end="2160">
+                <h2>ניהול דינמיקה</h2>
+                <p>28:00 - 36:00</p>
+            </a>
+            <a class="box" data-start="2160" data-end="3600">
+                <h2>תרבות ארגונית</h2>
+                <p>36:00 - סוף</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- טעינת YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let player;
+        let endTime = null;
+        let checkInterval = null;
+
+        // פונקציה זו חייבת להיות בתחום הגלובלי
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // התחלת הסרטון באופן אוטומטי ללא השתקה
+            player.playVideo();
+
+            const sectionLinks = document.querySelectorAll('.box');
+            sectionLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault(); // מניעת התנהגות ברירת מחדל של הקישור
+                    const startTime = parseInt(link.getAttribute('data-start'));
+                    endTime = parseInt(link.getAttribute('data-end'));
+                    player.seekTo(startTime, true);
+                    player.playVideo();
+
+                    // אם יש טיימר פעיל, ננקה אותו
+                    if (checkInterval) {
+                        clearInterval(checkInterval);
+                    }
+
+                    // נבדוק כל שנייה אם הגענו לזמן הסיום
+                    checkInterval = setInterval(() => {
+                        if (player.getCurrentTime() >= endTime) {
+                            player.pauseVideo();
+                            clearInterval(checkInterval);
+                        }
+                    }, 1000);
+                });
+            });
+        }
+
+        function onPlayerStateChange(event) {
+            // אם הסרטון נעצר או הסתיים, ננקה את הטיימר
+            if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+                if (checkInterval) {
+                    clearInterval(checkInterval);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
